@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        Assignment 2: Supervised Machine Learning (Classification) and Technical Report | 30 Points - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{background:#fff;color:#333;display:block;overflow-x:auto;padding:.5em}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{background-color:#eaffea;color:#55a532}.hljs-deletion{background-color:#ffecec;color:#bd2c00}.hljs-link{text-decoration:underline}.markdown-body{word-wrap:break-word;font-size:16px;line-height:1.5}.markdown-body:after,.markdown-body:before{content:"";display:table}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-bottom:16px;margin-top:0}.markdown-body hr{background-color:#e7e7e7;border:0;height:.25em;margin:24px 0;padding:0}.markdown-body blockquote{border-left:.25em solid #ddd;color:#777;font-size:16px;padding:0 1em}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{background-color:#fcfcfc;border:1px solid;border-color:#ccc #ccc #bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb;color:#555;display:inline-block;font-size:11px;line-height:10px;padding:3px 5px;vertical-align:middle}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{font-weight:600;line-height:1.25;margin-bottom:16px;margin-top:24px}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{border-bottom:1px solid #eee;padding-bottom:.3em}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{color:#777;font-size:.85em}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{list-style-type:none;padding:0}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-bottom:0;margin-top:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{padding-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{font-size:1em;font-style:italic;font-weight:700;margin-top:16px;padding:0}.markdown-body dl dd{margin-bottom:16px;padding:0 16px}.markdown-body table{display:block;overflow:auto;width:100%;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{border:1px solid #ddd;padding:6px 13px}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{background-color:#fff;box-sizing:initial;max-width:100%}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{background-color:initial;max-width:none;vertical-align:text-top}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{border:1px solid #ddd;display:block;float:left;margin:13px 0 0;overflow:hidden;padding:7px;width:auto}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{clear:both;color:#333;display:block;padding:5px 0 0}.markdown-body span.align-center{clear:both;display:block;overflow:hidden}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{clear:both;display:block;overflow:hidden}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{background-color:#0000000a;border-radius:3px;font-size:85%;margin:0;padding:.2em 0}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{content:"\00a0";letter-spacing:-.2em}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{background:#0000;border:0;font-size:100%;margin:0;padding:0;white-space:pre;word-break:normal}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{border-radius:3px;font-size:85%;line-height:1.45;overflow:auto}.markdown-body:not(.next-editor) pre{background-color:#f7f7f7;padding:16px}.markdown-body pre code,.markdown-body pre tt{word-wrap:normal;background-color:initial;border:0;display:inline;line-height:inherit;margin:0;max-width:auto;overflow:visible;padding:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{font-size:12px;line-height:1;overflow:hidden;padding:5px;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{background:#fff;border:0;padding:10px 8px 9px;text-align:right}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{background:#f8f8f8;border-top:0;font-weight:700}.news .alert .markdown-body blockquote{border:0;padding:0 0 0 40px}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{cursor:default!important;float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle}.markdown-body{max-width:758px;overflow:visible!important;padding-bottom:40px;padding-top:40px;position:relative}.markdown-body.next-editor{overflow-x:hidden!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{border-right:3px solid #6ce26c!important;box-sizing:initial;color:#afafaf!important;cursor:default;display:inline-block;min-width:20px;padding:0 8px 0 0;position:relative;text-align:right;z-index:4}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-bottom:none;border-left:none;border-top:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-collapse:inherit!important;border-spacing:0}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{margin-bottom:unset;overflow:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert{display:flex;flex-direction:column;gap:16px}.markdown-body .alert>*{margin:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram,.markdown-body pre.vega{background-color:inherit;border-radius:0;overflow:visible;text-align:center;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code,.markdown-body pre.vega>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg,.markdown-body pre.vega>svg{height:100%;max-width:100%}.markdown-body pre>code.wrap{word-wrap:break-word;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{background-color:#000;background-position:50%;background-repeat:no-repeat;background-size:contain;cursor:pointer;display:table;overflow:hidden;text-align:center}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{object-fit:contain;width:100%;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{height:100%;left:0;position:absolute;top:0;width:100%}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{color:#fff;height:auto;left:50%;opacity:.3;position:absolute;top:50%;transform:translate(-50%,-50%);transition:opacity .2s;width:auto;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{bottom:0;height:100%;left:0;position:absolute;right:0;top:0;width:100%}.figma{display:table;padding-bottom:56.25%;position:relative;width:100%}.figma iframe{border:1px solid #eee;bottom:0;height:100%;left:0;position:absolute;right:0;top:0;width:100%}.markmap-container{height:300px}.markmap-container>svg{height:100%;width:100%}.MJX_Assistive_MathML{display:none}#MathJax_Message{z-index:1000!important}.ui-infobar{color:#777;margin:25px auto -25px;max-width:760px;position:relative;z-index:2}.toc .invisable-node{list-style-type:none}.ui-toc{bottom:20px;position:fixed;z-index:998}.ui-toc.both-mode{margin-left:8px}.ui-toc.both-mode .ui-toc-label{border-bottom-left-radius:0;border-top-left-radius:0;height:40px;padding:10px 4px}.ui-toc-label{background-color:#e6e6e6;border:none;color:#868686;transition:opacity .2s}.ui-toc .open .ui-toc-label{color:#fff;opacity:1;transition:opacity .2s}.ui-toc-label:focus{background-color:#ccc;color:#000;opacity:.3}.ui-toc-label:hover{background-color:#ccc;opacity:1;transition:opacity .2s}.ui-toc-dropdown{margin-bottom:20px;margin-top:20px;max-height:70vh;max-width:45vw;overflow:auto;padding-left:10px;padding-right:10px;text-align:inherit;width:25vw}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{letter-spacing:.0029em;padding-right:0}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{color:#767676;display:block;font-size:13px;font-weight:500;padding:4px 20px}.ui-toc-dropdown .nav>li:first-child:last-child>ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{background-color:initial;border-left:1px solid #000;color:#000;padding-left:19px;text-decoration:none}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{border-left:none;border-right:1px solid #000;padding-right:19px}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{background-color:initial;border-left:2px solid #000;color:#000;font-weight:700;padding-left:18px}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{border-left:none;border-right:2px solid #000;padding-right:18px}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{font-size:12px;font-weight:400;padding-bottom:1px;padding-left:30px;padding-top:1px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{font-size:12px;font-weight:400;padding-bottom:1px;padding-left:40px;padding-top:1px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{font-weight:500;padding-left:28px}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{font-weight:500;padding-left:38px}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ ゴシック,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ ゴシック,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{max-height:70vh;max-width:15vw;overflow:auto;position:fixed;top:0}.back-to-top,.expand-toggle,.go-to-bottom{color:#999;display:block;font-size:12px;font-weight:500;margin-left:10px;margin-top:10px;padding:4px 10px}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{background-position:50%;background-repeat:no-repeat;background-size:cover;border-radius:50%;display:block;height:20px;margin-bottom:2px;margin-right:5px;margin-top:2px;width:20px}.ui-user-icon.small{display:inline-block;height:18px;margin:0 0 .2em;vertical-align:middle;width:18px}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-more-info{color:#888;cursor:pointer;vertical-align:middle}.ui-more-info .fa{font-size:16px}.ui-connectedGithub,.ui-published-note{color:#888}.ui-connectedGithub{line-height:23px;white-space:nowrap}.ui-connectedGithub a.file-path{color:#888;padding-left:22px;text-decoration:none}.ui-connectedGithub a.file-path:active,.ui-connectedGithub a.file-path:hover{color:#888;text-decoration:underline}.ui-connectedGithub .fa{font-size:20px}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}.selectable{-webkit-user-select:text;-o-user-select:text;user-select:text}.inline-spoiler-section{cursor:pointer}.inline-spoiler-section .spoiler-text{background-color:#333;border-radius:2px}.inline-spoiler-section .spoiler-text>*{opacity:0}.inline-spoiler-section .spoiler-img{filter:blur(10px)}.inline-spoiler-section.raw{background-color:#333;border-radius:2px}.inline-spoiler-section.raw>*{opacity:0}.inline-spoiler-section.unveil{cursor:auto}.inline-spoiler-section.unveil .spoiler-text{background-color:#3333331a}.inline-spoiler-section.unveil .spoiler-text>*{opacity:1}.inline-spoiler-section.unveil .spoiler-img{filter:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{color:#222;position:relative;z-index:1}.markdown-body.slides:before{background-color:currentColor;bottom:0;box-shadow:0 0 0 50vw;content:"";display:block;left:0;position:absolute;right:0;top:0;z-index:-1}.markdown-body.slides section[data-markdown]{background-color:#fff;margin-bottom:1.5em;position:relative;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{left:1em;max-height:100%;overflow:hidden;position:absolute;right:1em;top:50%;transform:translateY(-50%)}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{border:3px solid #777;content:"";height:1.5em;position:absolute;right:1em;top:-1.5em}.site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ ゴシック,sans-serif}html[lang=zh-tw] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}svg{text-shadow:none}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true"><style>
+td {
+  font-size: 14px
+}
+th {
+  font-size: 14px
+}
+</style><h1 id="Assignment-2-Supervised-Machine-Learning-Classification-and-Technical-Report--30-Points" data-id="Assignment-2-Supervised-Machine-Learning-Classification-and-Technical-Report--30-Points"><a class="anchor hidden-xs" href="#Assignment-2-Supervised-Machine-Learning-Classification-and-Technical-Report--30-Points" title="Assignment-2-Supervised-Machine-Learning-Classification-and-Technical-Report--30-Points"><span class="octicon octicon-link"></span></a><span>Assignment 2: Supervised Machine Learning (Classification) and Technical Report | 30 Points</span></h1><h2 id="Introduction" data-id="Introduction"><a class="anchor hidden-xs" href="#Introduction" title="Introduction"><span class="octicon octicon-link"></span></a><span>Introduction</span></h2><p><span>In Assignment 2, you will design and write code for supervised machine learning (specifically, for classification). You will train classifiers, predict the target values of your chosen dataset, and compare and visualize the predictive performance of different classifiers.</span></p><p><span>For this assignment, you can choose between different datasets.</span></p><h2 id="General-Information" data-id="General-Information"><a class="anchor hidden-xs" href="#General-Information" title="General-Information"><span class="octicon octicon-link"></span></a><span>General Information</span></h2><h3 id="Group-Work" data-id="Group-Work"><a class="anchor hidden-xs" href="#Group-Work" title="Group-Work"><span class="octicon octicon-link"></span></a><span>Group Work</span></h3><p><span>This assignment is group work, it should be completed in groups of three students. Please use the "Group Registration" tool in the "Assignment 2" section in the TeachCenter to register your group. The forum "Group Search" in the TeachCenter can be used to find a partner for this assignment.</span></p><h3 id="Deadline" data-id="Deadline"><a class="anchor hidden-xs" href="#Deadline" title="Deadline"><span class="octicon octicon-link"></span></a><span>Deadline</span></h3><p><span>The deadline for submitting both your Python code and the technical report for this assignment is on </span><strong><span>Sunday June 9, 2024</span></strong><span> at </span><strong><span>23:59:00</span></strong><span>.</span></p><p><span>You will submit your assignment in the TeachCenter. Multiple submissions are allowed, so you can submit your files as often as you want. The last submission before the deadline will be graded; we have no access to previous versions.</span><br>
+<span>The deadline is a hard deadline; therefore, no late submissions will be accepted.</span></p><h3 id="Submission-Files" data-id="Submission-Files"><a class="anchor hidden-xs" href="#Submission-Files" title="Submission-Files"><span class="octicon octicon-link"></span></a><span>Submission Files</span></h3><h4 id="Python-Code" data-id="Python-Code"><a class="anchor hidden-xs" href="#Python-Code" title="Python-Code"><span class="octicon octicon-link"></span></a><span>Python Code</span></h4><p><span>When you have completed the assignment, you will submit 1 zip-file (</span><strong><span>assignment2.zip</span></strong><span>) with the exact same folder structure as the provided template. Make sure to only add additional </span><code>*.py</code><span> files in the </span><code>assignment2</code><span> folder.</span></p><p><span>It is up to you how you structure your implementation (only </span><strong><span>one</span></strong><span> </span><code>*.py</code><span> file or </span><strong><span>multiple</span></strong><span>, both ways are valid), but keep in mind following guidelines:</span></p><ul>
+<li><span>No files outside the directory </span><code>assignment2</code></li>
+<li><span>Keep the contents of </span><code>__init__.py</code><span> to a minimum:</span>
+<ul>
+<li><span>imports and constants needed by multiple modules</span></li>
+<li><span>no classes or functions</span></li>
+</ul>
+</li>
+<li><span>Make sure to include a single </span><code>dataset.csv</code><span> file, containing your chosen and preprocessed dataset.</span></li>
+</ul><p><span>Overview of the described folder structure:</span></p><pre data-original-title="" title=""><code class="python hljs">assignment2.<span class="hljs-built_in">zip</span>
+├─📁assignment2
+│ ├─ __init__.py
+│ ├─ *.py
+│ └─ dataset.csv
+├─ assignment2.html
+└─ pyproject.toml
+</code></pre><h4 id="Technical-Report" data-id="Technical-Report"><a class="anchor hidden-xs" href="#Technical-Report" title="Technical-Report"><span class="octicon octicon-link"></span></a><span>Technical Report</span></h4><p><span>For your technical report, you will submit one file:</span></p><ul>
+<li><code>report_&lt;your_group_number&gt;.pdf</code><span>: Your technical report. Include your group number in the file name (i.e., the number of the group that you selected in the "Group Registration" tool in the TeachCenter).</span></li>
+</ul><p><span>Do not submit any other files. Name the files </span><em><span>exactly</span></em><span> as listed above. Make sure you use Python version ≥3.10.</span></p><h3 id="Comment-Header" data-id="Comment-Header"><a class="anchor hidden-xs" href="#Comment-Header" title="Comment-Header"><span class="octicon octicon-link"></span></a><span>Comment Header</span></h3><p><span>Every submitted </span><code>.py</code><span> file must contain a comment header with the following information at its top:</span></p><pre><code class="python hljs"><span class="hljs-comment">################################################################################</span>
+<span class="hljs-comment"># Author 1:      Firstname Lastname</span>
+<span class="hljs-comment"># MatNr 1:       01234567</span>
+<span class="hljs-comment"># Author 2:      Firstname Lastname</span>
+<span class="hljs-comment"># MatNr 2:       01234567</span>
+<span class="hljs-comment"># Author 3:      Firstname Lastname</span>
+<span class="hljs-comment"># MatNr 3:       01234567</span>
+<span class="hljs-comment"># File:          &lt;file_name&gt;.py</span>
+<span class="hljs-comment"># Description: ... short description of the file ...</span>
+<span class="hljs-comment"># Comments:    ... comments for the tutors ...</span>
+<span class="hljs-comment">#              ... can be multiline ...</span>
+<span class="hljs-comment">################################################################################</span>
+</code></pre><h3 id="Style-Guide-for-Code-Quality" data-id="Style-Guide-for-Code-Quality"><a class="anchor hidden-xs" href="#Style-Guide-for-Code-Quality" title="Style-Guide-for-Code-Quality"><span class="octicon octicon-link"></span></a><span>Style Guide for Code Quality</span></h3><p><span>The code quality is rated solely by running black, ruff and mypy. You can run them yourself by simply executing the following 3 commands in your </span><code>poetry shell</code><span>. Make sure you are in the same directory as the pyproject.toml file.</span></p><pre><code>black assignment2 --diff
+ruff assignment2 --no-fix --no-cache
+mypy assignment2
+</code></pre><p><span>Each of these commands will then provide you with some feedback in the console of what still needs to be fixed and at which point in the code.</span></p><p><span>You will also get an automated feedback report (see </span><strong><span>Automated Code Style Feedback</span></strong><span> section below) where we test your TC submission (with the </span><strong><span>exact same</span></strong><span> 3 commands).</span></p><h4 id="Point-deductions" data-id="Point-deductions"><a class="anchor hidden-xs" href="#Point-deductions" title="Point-deductions"><span class="octicon octicon-link"></span></a><span>Point deductions:</span></h4><p><span>A maximum of 5 points will be deducted for coding standard violations (0.5 points per issue found by black or ruff).</span></p><h4 id="Bonus-points" data-id="Bonus-points"><a class="anchor hidden-xs" href="#Bonus-points" title="Bonus-points"><span class="octicon octicon-link"></span></a><span>Bonus points:</span></h4><p><span>You will receive 3 bonus points if </span><code>mypy</code><span> runs </span><strong><span>without</span></strong><span> issues.</span></p><h3 id="Automated-Code-Style-Feedback" data-id="Automated-Code-Style-Feedback"><a class="anchor hidden-xs" href="#Automated-Code-Style-Feedback" title="Automated-Code-Style-Feedback"><span class="octicon octicon-link"></span></a><span>Automated Code Style Feedback</span></h3><p><span>Your submission will be run through a system that gives you feedback on your coding style (not on the functionality of your code!). These automated feedback runs will be performed </span><strong><span>4 times</span></strong><span> (on 23</span><sup><span>th</span></sup><span> and 28</span><sup><span>th</span></sup><span> of May, 4</span><sup><span>th</span></sup><span> and 6</span><sup><span>th</span></sup><span> of June), on all submissions uploaded to the TeachCenter by </span><strong><span>18:00</span></strong><span>. You will receive the feedback via e-mail.</span></p><h3 id="Code-Design" data-id="Code-Design"><a class="anchor hidden-xs" href="#Code-Design" title="Code-Design"><span class="octicon octicon-link"></span></a><span>Code Design</span></h3><p><span>In this assignment, you will design most of your code yourself. This means that we do not tell you which classes, methods, etc. you should write and in what way. Instead, after reading the requirements for the assignment, you should plan the design of your code. Think about:</span></p><ul>
+<li><span>Which classes do you need? Which methods and properties should they have?</span></li>
+<li><span>Which parameters and return values should your methods have?</span></li>
+</ul><p><strong><span>Write a docstring for each class and each method.</span></strong></p><p><strong><span>Ensure that all logic and behavior is encapsulated within functions or class methods, except for import statements.</span></strong><br>
+<span>A few class instantiations or function calls outside of functions or classes are acceptable if they contribute to the clarity and efficiency of your code.</span></p><h3 id="Allowed-Packages" data-id="Allowed-Packages"><a class="anchor hidden-xs" href="#Allowed-Packages" title="Allowed-Packages"><span class="octicon octicon-link"></span></a><span>Allowed Packages</span></h3><p><span>Unless otherwise specified in the class description, you are allowed to use the </span><a href="https://docs.python.org/3.9/py-modindex.html" target="_blank" rel="noopener"><span>standard library</span></a><span> and the following packages:</span></p><pre data-original-title="" title=""><code>numpy
+pandas
+scipy
+matplotlib
+plotly
+scikit-learn
+</code></pre><hr><h2 id="Datasets" data-id="Datasets"><a class="anchor hidden-xs" href="#Datasets" title="Datasets"><span class="octicon octicon-link"></span></a><span>Datasets</span></h2><p><span>In this assignment, you have the flexibility to choose from a wide range of datasets available in the </span><a href="https://archive.ics.uci.edu/datasets" target="_blank" rel="noopener"><span>UCI Machine Learning Repository</span></a><span>. The </span><a href="https://archive.ics.uci.edu/datasets" target="_blank" rel="noopener"><span>UCI Machine Learning Repository</span></a><span> offers a diverse collection of datasets for machine learning research.  We encourage you to explore various topics and find a dataset that aligns with your interests.</span></p><p><span>While you have the freedom to select a dataset, we have provided some criteria to guide your selection process. These criteria ensure that the chosen dataset is suitable for the tasks and objectives of this assignment. Please review the specified criteria carefully before making your selection.</span></p><h3 id="Dataset-Selection-and-Constraints" data-id="Dataset-Selection-and-Constraints"><a class="anchor hidden-xs" href="#Dataset-Selection-and-Constraints" title="Dataset-Selection-and-Constraints"><span class="octicon octicon-link"></span></a><span>Dataset Selection and Constraints</span></h3><p><span>This guide will help you navigate the process of selecting an appropriate dataset for your project.</span></p><ul>
+<li>
+<p><strong><span>Criteria for choosing a dataset:</span></strong><br>
+<span>You are only allowed to use datasets that adhere to the following properties:</span></p>
+<ul>
+<li><strong><span>Number of Instances:</span></strong><span> 500 or more</span></li>
+<li><strong><span>Number of Features:</span></strong><span> Between 10 and 100</span></li>
+<li><strong><span>Data Type of Features:</span></strong><span> Numerical only. The features in the dataset should consist of only real and/or integer values. This restriction simplifies data preprocessing and ensures compatibility with many machine learning algorithms.</span></li>
+<li><span>Ensure that your selected dataset is </span><strong><span>suitable for classification</span></strong><span> tasks. This means that it must have a discrete target variable and not one with continuous numerical values.</span></li>
+<li><strong><span>Exclusion:</span></strong><span> Please note that you must specifically </span><em><strong><span>exclude</span></strong></em><span> the </span><strong><span>Wine Quality</span></strong><span> dataset from your selection, as it is commonly used in many standard machine learning tutorials, and the goal is to encourage exploration of less common datasets.</span></li>
+</ul>
+</li>
+<li>
+<p><strong><span>Applying filters:</span></strong><br>
+<span>You can use the </span><a href="https://archive.ics.uci.edu/datasets?Task=Classification&amp;NumInstances=1000-inf&amp;NumFeatures=10-100&amp;skip=0&amp;take=10&amp;sort=desc&amp;orderBy=NumHits&amp;search=&amp;Types=Multivariate&amp;Types=Tabular" target="_blank" rel="noopener"><span>filter options</span></a><span> of the UCI Library to narrow down the selection of viable datasets. To search for datasets with numerical features, you can use the "Multivariate" and "Tabular" filter options in the "Data Type" category, as well as the "Numerical" option in the "Feature Type" category.</span><br>
+<span>However, while these filters are useful, they may not capture all datasets that meet the criteria, hence an additional manual search may be warranted.</span></p>
+</li>
+<li>
+<p><strong><span>Manual verification:</span></strong><span> It is essential that you manually verify that your chosen dataset adheres to the project's requirements. This includes confirming the dataset’s suitability based on size, feature set, and target variable.</span></p>
+</li>
+<li>
+<p><strong><a href="https://scikit-learn.org/stable/modules/multiclass.html" target="_blank" rel="noopener"><span>Multiclass</span></a><span> consideration:</span></strong><span>  If selecting a multiclass dataset, you may limit it to two classes as long as at least 500 instances remain. This can be done by </span><em><strong><span>removing</span></strong></em><span> other classes or by </span><em><strong><span>merging</span></strong></em><span> classes in a way that makes sense.</span></p>
+<p><span>For example, in the Heart Disease dataset (the example below), the target variable of most data files has values from 0 (no presence) to 4. To convert this into a dataset suitable for binary classification, you could combine all values 1 through 4 into one class by replacing all values greater than 0 with 1, representing "presence," while keeping 0 as "absence."</span></p>
+<p><span>If you choose to merge classes, ensure that the resulting dataset still retains meaningful information and supports the goals of your experiment.</span></p>
+</li>
+<li>
+<p><strong><span>Avoid </span><a href="https://scikit-learn.org/stable/modules/multiclass.html#multilabel-classification" target="_blank" rel="noopener"><span>multilabel</span></a><span> datasets:</span></strong><span> Multilabel datasets are strongly discouraged and should ideally be avoided, due to the imposed additional analytical challenges.</span></p>
+</li>
+</ul><h3 id="Example-Dataset-Heart-Disease-Detection" data-id="Example-Dataset-Heart-Disease-Detection"><a class="anchor hidden-xs" href="#Example-Dataset-Heart-Disease-Detection" title="Example-Dataset-Heart-Disease-Detection"><span class="octicon octicon-link"></span></a><span>Example Dataset: Heart Disease Detection</span></h3><p><span>The following dataset from the UCI Library is an example that fulfills the constraints for this assignment: </span><a href="https://archive.ics.uci.edu/ml/datasets/heart+disease" target="_blank" rel="noopener"><span>https://archive.ics.uci.edu/ml/datasets/heart+disease</span></a></p><p><span>This dataset contains data on heart disease diagnosis. The </span><code>processed.&lt;country&gt;.data</code><span> files contain 14 columns, including the target variable that indicates the presence (or absence) of heart disease in the patient. Missing values in this dataset are specified with </span><code>?</code><span> in the data files.</span></p><ul>
+<li><strong><span>Number of Instances:</span></strong><span> Although the dataset overview shows 303 instances (referring to the Cleveland data file), the full dataset has 920 instances, including data from Cleveland (303), Hungary (294), Switzerland (123) and VA Long Beach (200). This meets the minimum requirement of 500 instances, but it highlights the fact that </span><em><strong><span>dataset filters may not always work as expected</span></strong></em><span>.</span></li>
+<li><strong><span>Number of Features:</span></strong><span> The dataset contains 13 attributes, which falls within the acceptable range of 10 to 100 features.</span></li>
+<li><strong><span>Data Type of Features:</span></strong><span> All features in the dataset are numerical.</span></li>
+<li><strong><span>Classification Suitability:</span></strong><span> The target variable for this dataset is discrete, with the objective being to determine whether a patient has heart disease, based on the provided features. There are no continuous target variables, ensuring it aligns with classification requirements.</span></li>
+</ul><hr><h2 id="Required-Classes-7P" data-id="Required-Classes-7P"><a class="anchor hidden-xs" href="#Required-Classes-7P" title="Required-Classes-7P"><span class="octicon octicon-link"></span></a><span>Required Classes (7P)</span></h2><h3 id="Class-DatasetPreprocessor-4P" data-id="Class-DatasetPreprocessor-4P"><a class="anchor hidden-xs" href="#Class-DatasetPreprocessor-4P" title="Class-DatasetPreprocessor-4P"><span class="octicon octicon-link"></span></a><span>Class </span><code>DatasetPreprocessor</code><span> (4P)</span></h3><p><span>The class </span><code>DatasetPreprocessor</code><span>, at its core, is designed to facilitate the conversion of your chosen dataset from a </span><code>.zip</code><span> archive to a single </span><code>.csv</code><span> file. The following requirements should be met:</span></p><ul>
+<li><span>Ensure all data instances are consolidated into one </span><code>.csv</code><span> file.</span></li>
+<li><span>Assess and handle missing values. This could involve strategies such as imputation, deletion, or data augmentation.</span></li>
+<li><span>Get rid of unwanted classes if you are using a multiclass dataset, but do not want to do a multiclass classification.</span></li>
+<li><span>Keep in mind that not all files within the </span><code>.zip</code><span> archive may be required for your classification task. To avoid unnecessary processing and confusion, read the dataset's description carefully to understand the purpose of each file and determine which ones are essential for your experiments.</span></li>
+</ul><p><span>It is up to you how you ensure that all constraints are met. Feel free to implement functionality beyond the required methods.</span><br>
+<strong><span>Note:</span></strong><span> Your implementation of the </span><code>DatasetPreprocessor</code><span> only has to work with your chosen dataset, not with any other datasets.</span></p><h4 id="Required-Properties" data-id="Required-Properties"><a class="anchor hidden-xs" href="#Required-Properties" title="Required-Properties"><span class="octicon octicon-link"></span></a><span>Required Properties:</span></h4><table>
+<thead>
+<tr>
+<th><span>Name</span></th>
+<th><span>Type</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>zip_file_path</code></td>
+<td><code>str</code></td>
+<td><span>The path to the </span><code>.zip</code><span> archive containing the unprocessed dataset.</span></td>
+</tr>
+</tbody>
+</table><h4 id="Required-Method-__init__" data-id="Required-Method-__init__"><a class="anchor hidden-xs" href="#Required-Method-__init__" title="Required-Method-__init__"><span class="octicon octicon-link"></span></a><span>Required Method: </span><code>__init__</code></h4><ul>
+<li>
+<p><span>Functionality:</span><br>
+<span>The </span><code>__init__</code><span> method creates a </span><code>DatasetPreprocessor</code><span> object. Here, the data should be extracted from the</span><code>.zip</code><span> archive, then preprocessed, and finally stored in a private variable of your choice. Further details on the preprocessing criteria can be found in the </span><a href="#Classification-Experiments-14P"><span>Classification Experiments</span></a><span> section.</span></p>
+</li>
+<li>
+<p><span>Parameters:</span></p>
+<table>
+<thead>
+<tr>
+<th><span>Name</span></th>
+<th><span>Type</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>zip_file_path</code></td>
+<td><code>str</code></td>
+<td><span>The path to the </span><code>.zip</code><span> archive containing the  unprocessed dataset.</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul><h4 id="Required-Method-to_csv" data-id="Required-Method-to_csv"><a class="anchor hidden-xs" href="#Required-Method-to_csv" title="Required-Method-to_csv"><span class="octicon octicon-link"></span></a><span>Required Method: </span><code>to_csv</code></h4><ul>
+<li>
+<p><span>Functionality:</span><br>
+<span>This method stores the preprocessed data into a single </span><code>.csv</code><span> file, according to the following constraints:</span></p>
+<ol>
+<li><span>Each feature should occupy only one column in the </span><code>.csv</code><span> file.</span></li>
+<li><span>Use a comma as the separator.</span></li>
+<li><span>The </span><code>.csv</code><span> file must have a header row indicating the feature names. You are allowed to hardcode this header.</span></li>
+<li><span>The target variable must be in the last column of the </span><code>.csv</code><span> file.</span></li>
+</ol>
+</li>
+<li>
+<p><span>Parameters:</span></p>
+<table>
+<thead>
+<tr>
+<th><span>Name</span></th>
+<th><span>Type</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>csv_file_path</code></td>
+<td><code>str</code></td>
+<td><span>The path where the output </span><code>.csv</code><span> file containing the preprocessed dataset should be located.</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul><h3 id="Class-SimpleBaselineClassifier-3P" data-id="Class-SimpleBaselineClassifier-3P"><a class="anchor hidden-xs" href="#Class-SimpleBaselineClassifier-3P" title="Class-SimpleBaselineClassifier-3P"><span class="octicon octicon-link"></span></a><span>Class </span><code>SimpleBaselineClassifier</code><span> (3P)</span></h3><p><span>The </span><code>SimpleBaselineClassifier</code><span> makes trivial predictions that do not use any information from the features in the training data. Such a baseline is useful for determining whether (and by how much) the predictive performance of other, more complex classifiers is better than what could be achieved with the most naive approach.</span><br>
+<strong><span>Note:</span></strong><span> The </span><code>SimpleBaselineClassifier</code><span> implements some of the functionality of sklearn's </span><a href="https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html" target="_blank" rel="noopener"><code>DummyClassifier</code></a><span>. You can use the </span><code>DummyClassifier</code><span> as a reference for more information on the strategies.</span></p><p><span>You should implement the following strategies:</span></p><ul>
+<li><code>most_frequent</code><span>: This strategy always predicts the most frequent value of the target variable in the training data.</span></li>
+<li><code>uniform</code><span>: This strategy predicts the value of the target variable at random, chosen from the set of unique values that occur in the (target variable of the) training data. You can use </span><code>numpy.random.RandomState</code><span> for reproducibility.</span></li>
+<li><code>constant</code><span>: This strategy always predicts the same value.</span></li>
+</ul><p><strong><span>You may be required to present the code of your </span><code>SimpleBaselineClassifier</code><span> class during your presentation/code review.</span></strong></p><h4 id="Required-Method-__init__1" data-id="Required-Method-__init__"><a class="anchor hidden-xs" href="#Required-Method-__init__1" title="Required-Method-__init__1"><span class="octicon octicon-link"></span></a><span>Required Method: </span><code>__init__</code></h4><ul>
+<li>
+<p><span>Functionality:</span><br>
+<span>This method stores the value of the parameters in public instance attributes of identical names.</span></p>
+</li>
+<li>
+<p><span>Parameters:</span></p>
+<table>
+<thead>
+<tr>
+<th><span>Name</span></th>
+<th><span>Type</span></th>
+<th><span>Default Value</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strategy</code></td>
+<td><code>str</code></td>
+<td><code>'most_frequent'</code></td>
+<td><span>The strategy that the </span><code>SimpleBaselineClassifier</code><span> should use to make simple predictions. Possible values: </span><code>most_frequent</code><span>, </span><code>uniform</code><span>, </span><code>constant</code><span>.</span></td>
+</tr>
+<tr>
+<td><code>random_state</code></td>
+<td><code>int</code></td>
+<td><code>None</code></td>
+<td><span>Used for reproducible output when using the strategy </span><code>uniform</code><span>.</span></td>
+</tr>
+<tr>
+<td><code>constant</code></td>
+<td><code>int</code><span> or </span><code>str</code></td>
+<td><code>None</code></td>
+<td><span>If the strategy </span><code>constant</code><span> is used, this parameter tells the </span><code>SimpleBaselineClassifier</code><span> which value it should (always) predict. The value of the constant has to be present in the (target values of the) training data.</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul><h4 id="Required-Method-__repr__" data-id="Required-Method-__repr__"><a class="anchor hidden-xs" href="#Required-Method-__repr__" title="Required-Method-__repr__"><span class="octicon octicon-link"></span></a><span>Required Method: </span><code>__repr__</code></h4><ul>
+<li><span>Functionality: Returns the formal string representation of the class. The method returns the following string:</span></li>
+</ul><pre><code>"SimpleBaselineClassifier(strategy=&lt;strategy&gt;, random_state=&lt;random_state&gt;, constant=&lt;constant&gt;)"
+</code></pre><ul>
+<li><span>Return:</span>
+<table>
+<thead>
+<tr>
+<th><span>Type</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td><span>Formal string representation of the class</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul><h4 id="Required-Method-fit" data-id="Required-Method-fit"><a class="anchor hidden-xs" href="#Required-Method-fit" title="Required-Method-fit"><span class="octicon octicon-link"></span></a><span>Required Method: </span><code>fit</code></h4><ul>
+<li>
+<p><span>Functionality:</span><br>
+<span>This method stores the method's parameters in non-public instance attributes.</span></p>
+</li>
+<li>
+<p><span>Parameters:</span></p>
+<table>
+<thead>
+<tr>
+<th><span>Name</span></th>
+<th><span>Type</span></th>
+<th><span>Shape</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X_train</code></td>
+<td><code>numpy.ndarray</code></td>
+<td><code>(&lt;num_train_samples&gt;,&lt;num_features&gt;)</code></td>
+<td><span>The feature matrix of the training set.</span></td>
+</tr>
+<tr>
+<td><code>y_train</code></td>
+<td><code>numpy.ndarray</code></td>
+<td><code>(&lt;num_train_samples&gt;,)</code></td>
+<td><span>The target vector of the training set.</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul><h4 id="Required-Method-predict" data-id="Required-Method-predict"><a class="anchor hidden-xs" href="#Required-Method-predict" title="Required-Method-predict"><span class="octicon octicon-link"></span></a><span>Required Method: </span><code>predict</code></h4><ul>
+<li>
+<p><span>Functionality:</span><br>
+<span>This method predicts the values of the target variable for the provided feature matrix of the test set (parameter </span><code>X_test</code><span>) according to the chosen strategy (that the </span><code>__init__</code><span> stored in an instance attribute).</span></p>
+</li>
+<li>
+<p><span>Parameters:</span></p>
+<table>
+<thead>
+<tr>
+<th><span>Name</span></th>
+<th><span>Type</span></th>
+<th><span>Shape</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X_test</code></td>
+<td><code>numpy.ndarray</code></td>
+<td><code>(&lt;num_test_samples&gt;,&lt;num_features&gt;)</code></td>
+<td><span>The feature matrix of the test set.</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><span>Return:</span></p>
+<table>
+<thead>
+<tr>
+<th><span>Type</span></th>
+<th><span>Shape</span></th>
+<th><span>Description</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>numpy.ndarray</code></td>
+<td><code>(&lt;num_test_samples&gt;,)</code></td>
+<td><span>The predicted values of the target variable.</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul><hr><h2 id="Classification-Experiments-14P" data-id="Classification-Experiments-14P"><a class="anchor hidden-xs" href="#Classification-Experiments-14P" title="Classification-Experiments-14P"><span class="octicon octicon-link"></span></a><span>Classification Experiments (14P)</span></h2><p><span>When you have implemented the required classes above, you can start with your classification experiments. For this, you will implement functionality for </span><a href="https://en.wikipedia.org/wiki/Supervised_learning" target="_blank" rel="noopener"><span>supervised learning</span></a><span>. In your classification experiments, you will train different </span><a href="https://en.wikipedia.org/wiki/Statistical_classification" target="_blank" rel="noopener"><span>classifiers</span></a><span> on your training data and use them to predict the values of the target variable of the samples contained in your test data.</span></p><p><span>Some classifiers will predict these values better than others. Once a classifier is trained, it can be used to make predictions on new data. A test set, i.e. a set of samples which were not used for training but also have known labels, allows to estimate the classifier’s predictive performance on unseen data. For this task, out of the wide variety of </span><a href="https://scikit-learn.org/stable/modules/model_evaluation.html" target="_blank" rel="noopener"><span>evaluation metrics</span></a><span> applicable to different classification tasks, you </span><em><strong><span>must</span></strong></em><span> calculate and report at least the following:</span></p><ul>
+<li><a href="https://en.wikipedia.org/wiki/Accuracy_and_precision#In_binary_classification" target="_blank" rel="noopener"><span>Accuracy</span></a></li>
+<li><a href="https://en.wikipedia.org/wiki/Precision_and_recall" target="_blank" rel="noopener"><span>Precision</span></a></li>
+<li><a href="https://en.wikipedia.org/wiki/Precision_and_recall" target="_blank" rel="noopener"><span>Recall</span></a></li>
+<li><a href="https://en.wikipedia.org/wiki/F-score" target="_blank" rel="noopener"><span>F1 Score</span></a></li>
+</ul><p><span>You are allowed to use scikit-learn for calculating the evaluation metrics.</span></p><p><span>You will design any code that you write for the experiments yourself. Plan and discuss the design of the code with your other group members before you implement it together. In your technical report and your presentation/code review, you will have to present the design of your code along with the setup and results of your classification experiments.</span></p><h3 id="Instructions-for-Conducting-the-Experiments" data-id="Instructions-for-Conducting-the-Experiments"><a class="anchor hidden-xs" href="#Instructions-for-Conducting-the-Experiments" title="Instructions-for-Conducting-the-Experiments"><span class="octicon octicon-link"></span></a><span>Instructions for Conducting the Experiments</span></h3><p><span>The following steps are required for your classification experiments (in addition to designing and implementing any code that you need for the experiments).</span></p><h4 id="Preprocessing" data-id="Preprocessing"><a class="anchor hidden-xs" href="#Preprocessing" title="Preprocessing"><span class="octicon octicon-link"></span></a><span>Preprocessing</span></h4><p><span>Before diving into the experiments, proper preprocessing of your chosen dataset is essential. The specific preprocessing steps vary based on the dataset, but here are some general guidelines to follow:</span></p><ol>
+<li><span>Choose a dataset based on the requirements given in the </span><em><span>Dataset</span></em><span> section.</span></li>
+<li><span>Preprocess your dataset using your </span><code>DatasetPreprocessor</code><span> class. Your preprocessed data should result in a </span><code>.csv</code><span> file that adheres to the following criteria:</span>
+<ul>
+<li><span>Ensure that all data instances that you will use for classification are consolidated into one </span><code>.csv</code><span> file.</span></li>
+<li><span>Assess and handle missing values. This could involve strategies such as imputation, deletion, or data augmentation.</span></li>
+<li><span>In case you are using a multiclass dataset but don't want to do a multiclass classification, convert the dataset in a way that makes it suitable for binary classification, according to your chosen approach (e.g., delete or merge classes).</span></li>
+</ul>
+</li>
+</ol><p><span>After preprocessing, your dataset should be in an optimal form for training the machine learning models you will be testing.</span></p><ol start="3">
+<li><em><span>Bonus:</span></em><span> Visualize the dataset. For additional information, refer to the </span><a href="#Bonus-Points"><span>bonus points section</span></a><span> below.</span></li>
+</ol><h4 id="Classification-and-Visualization-of-the-Results" data-id="Classification-and-Visualization-of-the-Results"><a class="anchor hidden-xs" href="#Classification-and-Visualization-of-the-Results" title="Classification-and-Visualization-of-the-Results"><span class="octicon octicon-link"></span></a><span>Classification and Visualization of the Results</span></h4><ol>
+<li><span>Choose a set of classifiers that you want to use for predicting the target variable.</span>
+<ul>
+<li><span>Choose at least four supervised classifiers from </span><a href="https://scikit-learn.org/stable/supervised_learning.html#supervised-learning" target="_blank" rel="noopener"><span>scikit-learn</span></a><span>: Look through the classifiers available in scikit-learn and choose at least four (suitable) classifiers that you want to use.</span></li>
+</ul>
+</li>
+<li><span>Choose a suitable baseline to compare the performance of the classifiers to. For the baseline, you should use one of the strategies of your </span><code>SimpleBaselineClassifier</code><span>.</span></li>
+<li><span>Think about what percentage of your data you want to use as training data and what percentage you want to use as test data.</span>
+<ul>
+<li><span>Also think about which features you want to use.</span></li>
+</ul>
+</li>
+<li><span>Train your classifiers on the training data and use them to predict the values of the target variable of the samples in the test data.</span></li>
+<li><span>Evaluate the results. Which classifier performed best? Which one performed the worst? Did all classifiers beat the performance of your chosen baseline?</span>
+<ul>
+<li><span>Use (at least) the mandatory </span><a href="https://scikit-learn.org/stable/modules/model_evaluation.html" target="_blank" rel="noopener"><span>evaluation metrics</span></a><span> for your evaluation. You are allowed to use scikit-learn for calculating the evaluation metrics.</span></li>
+</ul>
+</li>
+<li><span>Visualize the results of your evaluation. At a minimum, (1) create plots that show the </span><a href="https://en.wikipedia.org/wiki/Confusion_matrix" target="_blank" rel="noopener"><span>confusion matrices</span></a><span> of all different classifiers and (2) create bar charts that show all your mandatory and chosen evaluation metrics for all different classifiers. Also include the baseline in your plots. Work with your preferred plotting library (matplotlib or plotly). You can see examples for such plots below.</span>
+<ul>
+<li><span>Each plot that you design should have, as a minimum:</span>
+<ul>
+<li><span>A title</span></li>
+<li><span>Axis labels</span></li>
+<li><span>Axis tick labels</span></li>
+<li><span>An appropriate scale for the axes</span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol><h3 id="Example-Plots" data-id="Example-Plots"><a class="anchor hidden-xs" href="#Example-Plots" title="Example-Plots"><span class="octicon octicon-link"></span></a><span>Example Plots</span></h3><p><img src="https://i.imgur.com/6DpfE8T.png" alt="" width="600" loading="lazy"></p><p><img src="https://i.imgur.com/GxNFbmo.png" alt="" width="600" loading="lazy"></p><hr><h2 id="Technical-Report-9P" data-id="Technical-Report-9P"><a class="anchor hidden-xs" href="#Technical-Report-9P" title="Technical-Report-9P"><span class="octicon octicon-link"></span></a><span>Technical Report (9P)</span></h2><p><span>In addition to your Python code, you will submit a technical report in which you describe your classification experiments as well as the code that you designed for them.</span></p><p><span>Your technical report should contain (at least) the following sections:</span></p><ul>
+<li><span>A title page containing the names and matriculation numbers of both authors, as well as your group number.</span></li>
+<li><strong><span>Introduction:</span></strong><span> In this (short) section, you introduce your work and give the reader some general information such as which dataset you used.</span></li>
+<li><strong><span>Code Design:</span></strong><span> This section contains a brief description of how you designed and structured your code for the classification experiments. Do not include actual code in this section! Also answer the following questions:</span>
+<ul>
+<li><span>Why did you design the classes, methods, properties, etc. the way you did?</span></li>
+<li><span>If you were given another two months of time to redesign your code, what would you change?</span></li>
+</ul>
+</li>
+<li><strong><span>Experimental Setup:</span></strong><span> This section should describe the details of your setup. Make sure to answer the following questions and </span><em><span>try to give reasons for all your choices</span></em><span>:</span>
+<ul>
+<li><span>Which classifiers did you use? Which parameters did you use for them?</span></li>
+<li><span>Which features did you use?</span></li>
+<li><span>What percentage of the data did you use for training and testing?</span></li>
+<li><span>How did you handle missing values?</span></li>
+<li><span>Which metrics did you rely on for evaluation and why?</span></li>
+<li><span>What was your baseline?</span></li>
+</ul>
+</li>
+<li><strong><span>Results and Discussion:</span></strong><span> In this section, you present and interpret your results. You may also discuss any problems or difficulties that you encountered. You should include the plots that you created to visualize your results. You may also include tables. Make sure that you provide answers to the following questions:</span>
+<ul>
+<li><span>What was the best classifier? Which one performed the worst?</span>
+<ul>
+<li><span>Does this change if you use a different metric for evaluation?</span></li>
+</ul>
+</li>
+<li><span>Did all classifiers beat the baseline?</span></li>
+<li><span>For each plot that you include: What can you see in the plot? Interpret your results. Write informative captions for your plots.</span></li>
+</ul>
+</li>
+<li><strong><span>Conclusion:</span></strong><span> This (short) section should summarize your main results and give concluding remarks. Also describe how you would try to further improve the prediction, based on the results that you obtained in this assignment.</span></li>
+</ul><p><span>Keep your report short and concise, it should not be more than </span><strong><span>8 pages</span></strong><span> (including the plots, excluding the title page). Use a fontsize of </span><strong><span>12pt</span></strong><span> and a line spacing of </span><strong><span>1.15</span></strong><span>. Submit your report as a .pdf file. Not submitting a report will lead to zero points on the assignment. </span><strong><span>Make sure that your technical report includes your names, group number, and  matriculation numbers.</span></strong></p><hr><h2 id="Presentation-and-Code-Review" data-id="Presentation-and-Code-Review"><a class="anchor hidden-xs" href="#Presentation-and-Code-Review" title="Presentation-and-Code-Review"><span class="octicon octicon-link"></span></a><span>Presentation and Code Review</span></h2><p><span>Finally, prepare a presentation of your code and your results. You will give the presentation during your code review in June. The presentation should be 15 to 20 minutes long </span><em><span>(make sure that it's not longer than 20 minutes!)</span></em><span>, and all students in your group should do a part of the presentation.</span></p><p><span>You can prepare slides (e.g., PDF or PowerPoint) to  support your presentation. For efficiently demonstrating the functionality of your code, you could also prepare a well-structured notebook (</span><code>.ipynb</code><span>). Make sure that you prepare something that supports your presentation (either a well-structured notebook, or slides, or both)!</span></p><p><span>During the presentation, make sure that you present</span></p><ol>
+<li><span>The design and functionality of your code</span></li>
+<li><span>The results of your classification experiments (including a visualization of the results)</span></li>
+</ol><p><span>Also be prepared to demonstrate specific parts of your code on request and answer detailed questions about your code and design. All students in your group have to understand all parts of the code. </span><strong><span>The presentation &amp; code review is mandatory</span></strong><span>, not giving a presentation will result in zero points on the assignment.</span></p><p><strong><span>Note:</span></strong><span> The code review might also include questions about Assignment 1.</span><br>
+<strong><span>Important:</span></strong><span> Your presentation &amp; code review will influence the amount of points that you receive for the different tasks of the assignment.</span></p><hr><h2 id="Bonus-Points" data-id="Bonus-Points"><a class="anchor hidden-xs" href="#Bonus-Points" title="Bonus-Points"><span class="octicon octicon-link"></span></a><span>Bonus Points</span></h2><h3 id="Visualize-the-dataset-3P" data-id="Visualize-the-dataset-3P"><a class="anchor hidden-xs" href="#Visualize-the-dataset-3P" title="Visualize-the-dataset-3P"><span class="octicon octicon-link"></span></a><span>Visualize the dataset (3P)</span></h3><p><span>Choose some features (at least three) that you want to examine more closely, and create plots for them. This will help you understand the distributions and relationships within your data. Make sure to explain these plots in your technical report and include them in your presentation.</span></p><ul>
+<li><span>For each of your chosen features, visualize the relationship between the feature and the target variable.</span></li>
+<li><span>Each plot should visualize the distribution of the feature's values for each value of the target variable (i.e., for each class). By doing this, you can gain insights into how different features may be predictive of the target variable's values.</span></li>
+<li><span>Design the plots yourself. You can use, e.g., bar charts, box plots, and histograms for your visualization.</span></li>
+</ul><h3 id="Type-Checking-3P" data-id="Type-Checking-3P"><a class="anchor hidden-xs" href="#Type-Checking-3P" title="Type-Checking-3P"><span class="octicon octicon-link"></span></a><span>Type Checking (3P)</span></h3><p><span>As mentioned in the </span><a href="#Style-Guide-for-Code-Quality"><span>Style Guide for Code Quality</span></a><span> section, you will receive 3 bonus points if </span><code>mypy</code><span> runs </span><strong><span>without</span></strong><span> issues.</span></p></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li><a href="#Assignment-2-Supervised-Machine-Learning-Classification-and-Technical-Report--30-Points" title="Assignment 2: Supervised Machine Learning (Classification) and Technical Report | 30 Points">Assignment 2: Supervised Machine Learning (Classification) and Technical Report | 30 Points</a><ul class="nav">
+<li><a href="#Introduction" title="Introduction">Introduction</a></li>
+<li><a href="#General-Information" title="General Information">General Information</a><ul class="nav">
+<li><a href="#Group-Work" title="Group Work">Group Work</a></li>
+<li><a href="#Deadline" title="Deadline">Deadline</a></li>
+<li><a href="#Submission-Files" title="Submission Files">Submission Files</a></li>
+<li><a href="#Comment-Header" title="Comment Header">Comment Header</a></li>
+<li><a href="#Style-Guide-for-Code-Quality" title="Style Guide for Code Quality">Style Guide for Code Quality</a></li>
+<li><a href="#Automated-Code-Style-Feedback" title="Automated Code Style Feedback">Automated Code Style Feedback</a></li>
+<li><a href="#Code-Design" title="Code Design">Code Design</a></li>
+<li><a href="#Allowed-Packages" title="Allowed Packages">Allowed Packages</a></li>
+</ul>
+</li>
+<li><a href="#Datasets" title="Datasets">Datasets</a><ul class="nav">
+<li><a href="#Dataset-Selection-and-Constraints" title="Dataset Selection and Constraints">Dataset Selection and Constraints</a></li>
+<li><a href="#Example-Dataset-Heart-Disease-Detection" title="Example Dataset: Heart Disease Detection">Example Dataset: Heart Disease Detection</a></li>
+</ul>
+</li>
+<li><a href="#Required-Classes-7P" title="Required Classes (7P)">Required Classes (7P)</a><ul class="nav">
+<li><a href="#Class-DatasetPreprocessor-4P" title="Class DatasetPreprocessor (4P)">Class DatasetPreprocessor (4P)</a></li>
+<li><a href="#Class-SimpleBaselineClassifier-3P" title="Class SimpleBaselineClassifier (3P)">Class SimpleBaselineClassifier (3P)</a></li>
+</ul>
+</li>
+<li><a href="#Classification-Experiments-14P" title="Classification Experiments (14P)">Classification Experiments (14P)</a><ul class="nav">
+<li><a href="#Instructions-for-Conducting-the-Experiments" title="Instructions for Conducting the Experiments">Instructions for Conducting the Experiments</a></li>
+<li><a href="#Example-Plots" title="Example Plots">Example Plots</a></li>
+</ul>
+</li>
+<li><a href="#Technical-Report-9P" title="Technical Report (9P)">Technical Report (9P)</a></li>
+<li><a href="#Presentation-and-Code-Review" title="Presentation and Code Review">Presentation and Code Review</a></li>
+<li><a href="#Bonus-Points" title="Bonus Points">Bonus Points</a><ul class="nav">
+<li><a href="#Visualize-the-dataset-3P" title="Visualize the dataset (3P)">Visualize the dataset (3P)</a></li>
+<li><a href="#Type-Checking-3P" title="Type Checking (3P)">Type Checking (3P)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
+        <div class="toc"><ul class="nav">
+<li><a href="#Assignment-2-Supervised-Machine-Learning-Classification-and-Technical-Report--30-Points" title="Assignment 2: Supervised Machine Learning (Classification) and Technical Report | 30 Points">Assignment 2: Supervised Machine Learning (Classification) and Technical Report | 30 Points</a><ul class="nav">
+<li><a href="#Introduction" title="Introduction">Introduction</a></li>
+<li><a href="#General-Information" title="General Information">General Information</a><ul class="nav">
+<li><a href="#Group-Work" title="Group Work">Group Work</a></li>
+<li><a href="#Deadline" title="Deadline">Deadline</a></li>
+<li><a href="#Submission-Files" title="Submission Files">Submission Files</a></li>
+<li><a href="#Comment-Header" title="Comment Header">Comment Header</a></li>
+<li><a href="#Style-Guide-for-Code-Quality" title="Style Guide for Code Quality">Style Guide for Code Quality</a></li>
+<li><a href="#Automated-Code-Style-Feedback" title="Automated Code Style Feedback">Automated Code Style Feedback</a></li>
+<li><a href="#Code-Design" title="Code Design">Code Design</a></li>
+<li><a href="#Allowed-Packages" title="Allowed Packages">Allowed Packages</a></li>
+</ul>
+</li>
+<li><a href="#Datasets" title="Datasets">Datasets</a><ul class="nav">
+<li><a href="#Dataset-Selection-and-Constraints" title="Dataset Selection and Constraints">Dataset Selection and Constraints</a></li>
+<li><a href="#Example-Dataset-Heart-Disease-Detection" title="Example Dataset: Heart Disease Detection">Example Dataset: Heart Disease Detection</a></li>
+</ul>
+</li>
+<li><a href="#Required-Classes-7P" title="Required Classes (7P)">Required Classes (7P)</a><ul class="nav">
+<li><a href="#Class-DatasetPreprocessor-4P" title="Class DatasetPreprocessor (4P)">Class DatasetPreprocessor (4P)</a></li>
+<li><a href="#Class-SimpleBaselineClassifier-3P" title="Class SimpleBaselineClassifier (3P)">Class SimpleBaselineClassifier (3P)</a></li>
+</ul>
+</li>
+<li><a href="#Classification-Experiments-14P" title="Classification Experiments (14P)">Classification Experiments (14P)</a><ul class="nav">
+<li><a href="#Instructions-for-Conducting-the-Experiments" title="Instructions for Conducting the Experiments">Instructions for Conducting the Experiments</a></li>
+<li><a href="#Example-Plots" title="Example Plots">Example Plots</a></li>
+</ul>
+</li>
+<li><a href="#Technical-Report-9P" title="Technical Report (9P)">Technical Report (9P)</a></li>
+<li><a href="#Presentation-and-Code-Review" title="Presentation and Code Review">Presentation and Code Review</a></li>
+<li><a href="#Bonus-Points" title="Bonus Points">Bonus Points</a><ul class="nav">
+<li><a href="#Visualize-the-dataset-3P" title="Visualize the dataset (3P)">Visualize the dataset (3P)</a></li>
+<li><a href="#Type-Checking-3P" title="Type Checking (3P)">Type Checking (3P)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
