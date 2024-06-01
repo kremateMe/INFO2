@@ -52,9 +52,42 @@ class DatasetPreprocessor:
             data = data[[col for col in data.columns if col != 'target_variable'] + ['target_variable']]
         data.to_csv(csv_file_path, index=False)
 
+class SimpleBaselineClassifier:
+    def __init__(self, strategy='most_frequent', random_state = None, constant = None) -> None:
+        self.strategy = strategy
+        self.random_state = random_state
+        self.constant = constant
+
+    def __repr__(self):
+        return f"SimpleBaselineClassifier(strategy={self.strategy}, random_state={self.random_state}, constant={self.constant})"
+    
+    def fit(self, X_train, y_train):
+        self._y_train = y_train
+        self._X_train = X_train
+        if self.strategy == 'most_frequent':
+            frequency = np.bincount(y_train)
+            self._most_frequent = frequency.argmax()
+        elif self.strategy == 'uniform':
+            self._values = np.unique(y_train)
+            self._random_state = np.random.RandomState(self.random_state)
+        elif self.strategy == 'constant':
+            self._constant = self.constant
+
+    def predict(self, X_test):
+        number_samples = len(X_test)
+        if self.strategy == 'most_frequent':
+            return np.full(number_samples, self._most_frequent)
+        elif self.strategy == 'uniform':
+            return self._random_state.choice(self._values, size=number_samples)
+        elif self.strategy == 'constant':
+            return np.full(number_samples, self._constant)
+
+
+
 #test:
 
 zip_file_path = r'C:\Users\Anna\OneDrive\Dokumente\Info_Assignment_02\INFO2-main\INFO2-main\assignment2\air+quality.zip'
+
 preprocessor = DatasetPreprocessor(zip_file_path)
 processed_data = preprocessor._data
 print(processed_data.head())
