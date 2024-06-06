@@ -1,16 +1,27 @@
+################################################################################
+# Author 1:      Anna Derler
+# MatNr 1:       
+# Author 2:      Sebastian Fankhauser
+# MatNr 2:       
+# Author 3:      Selina Wallner
+# MatNr 3:       12111842
+# File:          air_quality_code.py
+# Description: Classification Experiments with Dataset Air Quality
+# Comments:    
+#              
+################################################################################
 
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import sklearn
 import zipfile
 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import sklearn
 import sklearn.gaussian_process
 import sklearn.linear_model
 import sklearn.metrics
 import sklearn.model_selection
 import sklearn.tree
-
 
 
 class DatasetPreprocessor:
@@ -19,13 +30,26 @@ class DatasetPreprocessor:
         self._data = self._preprocess_data()
 
     def _preprocess_data(self):
-        with zipfile.ZipFile(self.zip_file_path, 'r') as zip_ref:
+        with zipfile.ZipFile(self.zip_file_path, "r") as zip_ref:
             zip_ref.extract("AirQualityUCI.csv")
-        df = pd.read_csv('AirQualityUCI.csv', sep=";")
+        df = pd.read_csv("AirQualityUCI.csv", sep=";")
 
-        df = df.drop(columns=["Date", "PT08.S1(CO)", "PT08.S2(NMHC)", "PT08.S3(NOx)", "PT08.S4(NO2)", "PT08.S5(O3)", "T", "RH", "AH"], axis = 1)
-        df = df.drop(df.columns[6], axis = 1)
-        df = df.drop(df.columns[6], axis = 1)
+        df = df.drop(
+            columns=[
+                "Date",
+                "PT08.S1(CO)",
+                "PT08.S2(NMHC)",
+                "PT08.S3(NOx)",
+                "PT08.S4(NO2)",
+                "PT08.S5(O3)",
+                "T",
+                "RH",
+                "AH",
+            ],
+            axis=1,
+        )
+        df = df.drop(df.columns[6], axis=1)
+        df = df.drop(df.columns[6], axis=1)
 
         i = 9470
         while i > 9356:
@@ -63,34 +87,35 @@ class DatasetPreprocessor:
     def to_csv(self, csv_file_path):
         self._data.to_csv(csv_file_path, index=False, sep=",")
 
+
 class SimpleBaselineClassifier:
-    def __init__(self, strategy='uniform', random_state = None, constant = None) -> None:
+    def __init__(self, strategy="uniform", random_state=None, constant=None) -> None:
         self.strategy = strategy
         self.random_state = random_state
         self.constant = constant
 
     def __repr__(self):
         return f"SimpleBaselineClassifier(strategy={self.strategy}, random_state={self.random_state}, constant={self.constant})"
-    
+
     def fit(self, X_train, y_train):
         self._y_train = y_train
         self._X_train = X_train
-        if self.strategy == 'most_frequent':
+        if self.strategy == "most_frequent":
             frequency = np.bincount(y_train)
             self._most_frequent = frequency.argmax()
-        elif self.strategy == 'uniform':
+        elif self.strategy == "uniform":
             self._values = np.unique(y_train)
             self._random_state = np.random.RandomState(self.random_state)
-        elif self.strategy == 'constant':
+        elif self.strategy == "constant":
             self._constant = self.constant
 
     def predict(self, X_test):
         number_samples = len(X_test)
-        if self.strategy == 'most_frequent':
+        if self.strategy == "most_frequent":
             return np.full(number_samples, self._most_frequent)
-        elif self.strategy == 'uniform':
+        elif self.strategy == "uniform":
             return self._random_state.choice(self._values, size=number_samples)
-        elif self.strategy == 'constant':
+        elif self.strategy == "constant":
             return np.full(number_samples, self._constant)
 
 
@@ -99,10 +124,13 @@ class Classifier:
         self.df = pd.read_csv(csv_file, sep=",")
         X = self.df[X_column].tolist()
         y = self.df[y_column].tolist()
-        self.X_train, self.X_test, self.y_train, self.y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2, random_state = 0)
+        self.X_train, self.X_test, self.y_train, self.y_test = (
+            sklearn.model_selection.train_test_split(
+                X, y, test_size=0.2, random_state=0
+            )
+        )
         self.X_train = np.array(self.X_train).reshape(-1, 1)
         self.X_test = np.array(self.X_test).reshape(-1, 1)
-
 
     def RidgeClassifier(self):
         clf = sklearn.linear_model.RidgeClassifier()
@@ -115,13 +143,11 @@ class Classifier:
         self.accuracy_Ridge = accuracy
         self.cm_Ridge = sklearn.metrics.confusion_matrix(self.y_test, y_pred)
         print("----------")
-        print(f"RidgeClassifier accuracy: {round(100 * accuracy, 2)}%")
-        print(f"RidgeClassifier precision: {round(100 * precision, 2)}%")
-        print(f"RidgeClassifier recall: {round(100 * recall, 2)}%")
-        print(f"RidgeClassifier f1 score: {round(100 * f1, 2)}%")
+        print(f"RidgeClassifier accuracy: {round(100 * float(accuracy), 2)}%")
+        print(f"RidgeClassifier precision: {round(100 * float(precision), 2)}%")
+        print(f"RidgeClassifier recall: {round(100 * float(recall), 2)}%")
+        print(f"RidgeClassifier f1 score: {round(100 * float(f1), 2)}%")
         print("----------")
-
-
 
     def PassiveAggressive(self):
         clf = sklearn.linear_model.PassiveAggressiveClassifier()
@@ -133,13 +159,11 @@ class Classifier:
         f1 = sklearn.metrics.f1_score(self.y_test, y_pred)
         self.accuracy_PA = accuracy
         self.cm_PA = sklearn.metrics.confusion_matrix(self.y_test, y_pred)
-        print(f"Passive Aggressive Classifier accuracy: {round(100 * accuracy, 2)}%")
-        print(f"Passive Aggressive Classifier precision: {round(100 * precision, 2)}%")
-        print(f"Passive Aggressive Classifier recall: {round(100 * recall, 2)}%")
-        print(f"Passive Aggressive Classifier f1 score: {round(100 * f1, 2)}%")
+        print(f"Passive Aggressive Classifier accuracy: {round(100 * float(accuracy), 2)}%")
+        print(f"Passive Aggressive Classifier precision: {round(100 * float(precision), 2)}%")
+        print(f"Passive Aggressive Classifier recall: {round(100 * float(recall), 2)}%")
+        print(f"Passive Aggressive Classifier f1 score: {round(100 * float(f1), 2)}%")
         print("----------")
-
-
 
     def DecisionTree(self):
         clf = sklearn.tree.DecisionTreeClassifier()
@@ -151,12 +175,11 @@ class Classifier:
         f1 = sklearn.metrics.f1_score(self.y_test, y_pred)
         self.accuracy_tree = accuracy
         self.cm_tree = sklearn.metrics.confusion_matrix(self.y_test, y_pred)
-        print(f"Decision Tree Classifier accuracy: {round(100 * accuracy, 2)}%")
-        print(f"Decision Tree Classifier precision: {round(100 * precision, 2)}%")
-        print(f"Decision Tree Classifier recall: {round(100 * recall, 2)}%")
-        print(f"Decision Tree Classifier f1 score: {round(100 * f1, 2)}%")
+        print(f"Decision Tree Classifier accuracy: {round(100 * float(accuracy), 2)}%")
+        print(f"Decision Tree Classifier precision: {round(100 * float(precision), 2)}%")
+        print(f"Decision Tree Classifier recall: {round(100 * float(recall), 2)}%")
+        print(f"Decision Tree Classifier f1 score: {round(100 * float(f1), 2)}%")
         print("----------")
-
 
     def SGDClassifier(self):
         clf = sklearn.linear_model.SGDClassifier()
@@ -168,12 +191,11 @@ class Classifier:
         f1 = sklearn.metrics.f1_score(self.y_test, y_pred)
         self.accuracy_SGD = accuracy
         self.cm_SGD = sklearn.metrics.confusion_matrix(self.y_test, y_pred)
-        print(f"SGD-Classifier accuracy: {round(100 * accuracy, 2)}%")
-        print(f"SGD-Classifier precision: {round(100 * precision, 2)}%")
-        print(f"SGD-Classifier recall: {round(100 * recall, 2)}%")
-        print(f"SGD-Classifier f1 score: {round(100 * f1, 2)}%")
+        print(f"SGD-Classifier accuracy: {round(100 * float(accuracy), 2)}%")
+        print(f"SGD-Classifier precision: {round(100 * float(precision), 2)}%")
+        print(f"SGD-Classifier recall: {round(100 * float(recall), 2)}%")
+        print(f"SGD-Classifier f1 score: {round(100 * float(f1), 2)}%")
         print("----------")
-
 
     def SimpleBaselineClassifier(self):
         clf = SimpleBaselineClassifier()
@@ -185,10 +207,14 @@ class Classifier:
         f1 = sklearn.metrics.f1_score(self.y_test, y_pred)
         self.accuracy_simple = accuracy
         self.cm_simple = sklearn.metrics.confusion_matrix(self.y_test, y_pred)
-        print(f"Simple Baseline Classifier accuracy: {round(100 * accuracy , 2)}%")
-        print(f"Simple Baseline Classifier precision: {round(100 * precision , 2)}%")
-        print(f"Simple Baseline Classifier recall: {round(100 * recall , 2)}%")
-        print(f"Simple Baseline Classifier f1 score: {round(100 * f1 , 2)}%")
+        print(
+            f"Simple Baseline Classifier accuracy: {round(100 * float(accuracy) , 2)}%"
+        )
+        print(
+            f"Simple Baseline Classifier precision: {round(100 * float(precision) , 2)}%"
+        )
+        print(f"Simple Baseline Classifier recall: {round(100 * float(recall) , 2)}%")
+        print(f"Simple Baseline Classifier f1 score: {round(100 * float(f1) , 2)}%")
         print("----------")
 
     def plots(self):
@@ -212,27 +238,39 @@ class Classifier:
         disp5.plot()
         plt.title("SimpleBaselineClassifier()")
 
-        bars = [self.accuracy_Ridge, self.accuracy_PA, self.accuracy_tree, self.accuracy_SGD, self.accuracy_simple]
-        classifiers = ["RidgeClassifier()", "PassiveAggressiveClassifier()", "DecisionTreeClassifier()", "SGDClassifier()", "SimpleBaselineClassifier()"]
-        colors = [{p<0.75: "red", 0.75<=p<=0.9: "orange", p>0.9: "green"}[True] for p in bars]
+        bars = [
+            self.accuracy_Ridge,
+            self.accuracy_PA,
+            self.accuracy_tree,
+            self.accuracy_SGD,
+            self.accuracy_simple,
+        ]
+        classifiers = [
+            "RidgeClassifier()",
+            "PassiveAggressiveClassifier()",
+            "DecisionTreeClassifier()",
+            "SGDClassifier()",
+            "SimpleBaselineClassifier()",
+        ]
+        colors = [
+            {p < 0.75: "red", 0.75 <= p <= 0.9: "orange", p > 0.9: "green"}[True]
+            for p in bars
+        ]
         plt.figure()
-        plt.bar(classifiers, bars, color = colors)
+        plt.bar(classifiers, bars, color=colors)
         plt.xticks(rotation=90)
         plt.show()
 
 
+# test:
 
-
-
-#test:
-
-zip_file_path = r'air+quality.zip'
+zip_file_path = r"air+quality.zip"
 
 preprocessor = DatasetPreprocessor(zip_file_path)
 processed_data = preprocessor._data
 print(processed_data.head())
 
-csv_output_path = r'processed_data.csv'
+csv_output_path = r"processed_data.csv"
 
 preprocessor.to_csv(csv_output_path)
 
@@ -243,4 +281,3 @@ classification.DecisionTree()
 classification.SGDClassifier()
 classification.SimpleBaselineClassifier()
 classification.plots()
-
